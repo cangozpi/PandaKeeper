@@ -8,6 +8,10 @@ public class PandaArea {
     private int center_y;
     private boolean hasAnotherPanda;
 
+    public PandaArea(){
+
+    }
+
 
     public int bambooNumber() {
     return ((height*width) - panda_population);

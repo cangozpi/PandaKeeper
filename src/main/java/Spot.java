@@ -30,7 +30,7 @@ public class Spot {
         this.y = y;
     }
 
-    public boolean isHasPanda() {
+    public boolean hasPanda() {
         return hasPanda;
     }
 
