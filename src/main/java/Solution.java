@@ -68,10 +68,14 @@ public class Solution {
 
         for (int i = 0; i < spots.length; i++) {
             for (int j = 0; j < spots[0].length; j++) {
+                //System.out.println(spots[i][j]);
                 ArrayList<Panda> state = spots[i][j];
-                if (state.size() > 0) {
-                    sortedNonEmptyList.add(state);
+                if(state != null){
+                    if (state.size() > 0) {
+                        sortedNonEmptyList.add(state);
+                    }
                 }
+
             }
         }
             sortedNonEmptyList.sort(new Comparator<ArrayList<Panda>>() {
@@ -93,15 +97,15 @@ public class Solution {
             //assign states with only 1 panda in i to that panda to ea
             for (ArrayList<Panda> spot : sortedNonEmptyList) {
                 if (spot.size() == 1) {//if only 1 panda can reach the state than assign that state to the corresponding panda
-                    pandaList.get(spot.get(0).getPanda_num()).addAlreadyEatenCount();
+                    pandaList.get(spot.get(0).getPanda_num()-1).addAlreadyEatenCount();
                 } else {//if more than 1 panda can reach the given state then assign that spot to the panda who has eaten the least up to that point
                     int leastFedCount = 9999;// 9999 represents pos_infinity
                     int leastFedPanda = 0;
                     for (Panda panda : spot) {
-                        int fedCount = pandaList.get(panda.getPanda_num()).getAlreadyEatenStateCount();
+                        int fedCount = pandaList.get(panda.getPanda_num()-1).getAlreadyEatenStateCount();
                         if (fedCount < leastFedCount) {
                             leastFedCount = fedCount;
-                            leastFedCount = panda.getPanda_num();
+                            leastFedPanda = panda.getPanda_num() -1;
                         }
                     }
                     pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
@@ -308,7 +312,8 @@ public class Solution {
                                     break;
 
                                 }
-                                Spot newS = new Spot(j, kcurPanda.addSpot(newS);
+                                Spot newS = new Spot(j, k);
+                                curPanda.addSpot(newS);
                             }
                         }
                     }
@@ -350,6 +355,9 @@ public class Solution {
 
             for (int i = 0; i < pandaList.size(); i++) {
 
+                for (int j= 0; j < pandaList.size(); j++){
+
+                }
             }
             return 0;
         }
@@ -393,4 +401,3 @@ public class Solution {
         }
 
     }
-}

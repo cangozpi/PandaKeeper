@@ -51,8 +51,8 @@ public class Panda {
         Panda_num = panda_num;
     }
 
-    public void resetPandaNo(){
-        setPanda_num(0);
+    public static void resetPandaNo(){
+        Panda_num = 0;
     }
 
     public void addAlreadyEatenCount(){

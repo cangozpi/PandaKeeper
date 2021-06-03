@@ -25,6 +25,7 @@ public class Main {
         int numPandasTotal = 0;
         int a = inputParameters.removeFirst();
         for (int testCaseNo = 0; testCaseNo < a; testCaseNo++) {   //loops test cas
+            Panda.resetPandaNo();
             long startTime = System.nanoTime();
             int height = inputParameters.removeFirst();
             int width = inputParameters.removeFirst();
@@ -42,11 +43,11 @@ public class Main {
             }else{
                 result = sol.solutionB();
             }
-            System.out.println(result);
+            System.out.println("Result = " + result);
             long endTime   = System.nanoTime();
             long totalTime = endTime - startTime;
 
-            System.out.println((totalTime/10^9));
+            System.out.println("Time = " + (totalTime/10^9));
 
         }
 
