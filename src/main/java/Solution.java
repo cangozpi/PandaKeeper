@@ -296,6 +296,8 @@ public class Solution {
         }
         if(minFedFlag){
             minFed = leastFedCount;
+
+
         }
 
         //base case
