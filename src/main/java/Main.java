@@ -31,17 +31,16 @@ public class Main {
             int numPandas = inputParameters.removeFirst();
             int result = -1;
             Solution sol = new Solution(height, width, numPandas);
-
-            if(isSolutionA== false){
-                for (int pandaNo = 0; pandaNo < numPandas; pandaNo++) {
-                    int pandaX = inputParameters.removeFirst();
-                    int pandaY = inputParameters.removeFirst();
-                    int pandaS = inputParameters.removeFirst();
-                    sol.addPanda(pandaX, pandaY, pandaS);
-                }
-                result = sol.solutionB();
-            }else{
+            for (int pandaNo = 0; pandaNo < numPandas; pandaNo++) {
+                int pandaX = inputParameters.removeFirst()-1;
+                int pandaY = inputParameters.removeFirst()-1;
+                int pandaS = inputParameters.removeFirst();
+                sol.addPanda(pandaX, pandaY, pandaS);
+            }
+            if(isSolutionA== true){
                 result = sol.solutionA();
+            }else{
+                result = sol.solutionB();
             }
             System.out.println(result);
             long endTime   = System.nanoTime();

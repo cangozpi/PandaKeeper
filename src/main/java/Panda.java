@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Panda {
@@ -8,8 +9,9 @@ public class Panda {
     private int y;
     private int s;
     private static int Panda_num = 0;
-    private ArrayList<Spot> spots;
+    private HashMap<Spot.Coordinate,Spot> spots = new HashMap<Spot.Coordinate, Spot>();
     private int alreadyEatenStateCount = 0; //number of grids that panda is assigned to eat
+
 
     public Panda(int x, int y, int s){
         this.x = x;
@@ -56,6 +58,15 @@ public class Panda {
     public void addAlreadyEatenCount(){
         this.alreadyEatenStateCount++;
     }
+
+    public void addSpot(Spot s){
+       spots.put(s.getCoordinate(),s);
+    }
+
+    public void removeSpot(Spot s){
+        spots.remove(s.getCoordinate());
+    }
+
 
     public int getAlreadyEatenStateCount(){
         return alreadyEatenStateCount;

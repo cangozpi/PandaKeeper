@@ -13,6 +13,8 @@ public class PandaArea {
 
     public PandaArea(int x, int y, int s){
 
+
+
     }
 
      public int assign_food(){
