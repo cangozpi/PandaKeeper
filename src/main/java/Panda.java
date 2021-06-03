@@ -39,18 +39,22 @@ public class Panda {
 
     public HashSet<Panda> getNeighbours(){return neighbours;}
     public void giveBamboo(){
+        System.out.println("panda:" + pandaNum + "food:" + alreadyEatenStateCount );
         if(neighbours!=null) {
             int max = 0;
             Panda m = null;
             for (Panda panda : neighbours) {
+                if(this == panda)continue;
                 if (panda.getAlreadyEatenStateCount() > max) {
                     m = panda;
                 }
             }
+            if(m == null)return;
             if (m.alreadyEatenStateCount > alreadyEatenStateCount) {
                 alreadyEatenStateCount++;
-                m.giveBamboo();
                 m.decreaseBamboo();
+                m.giveBamboo();
+
             }
         }
     }
