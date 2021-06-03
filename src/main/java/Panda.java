@@ -118,4 +118,8 @@ public class Panda {
     public void setPandaNum(int pandaNum) {
         this.pandaNum = pandaNum;
     }
+
+    public void setAlreadyEatenStateCount(int num){
+        this.alreadyEatenStateCount = num;
+    }
 }

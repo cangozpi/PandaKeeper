@@ -272,19 +272,30 @@ public class Solution {
         ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
 
         //start recursive call
-        return solutionCHelper( sortedNonEmptyListCopy, pandaListCopy); //pass -inf and +inf as maxFed and mainFed
+        return solutionCHelper( sortedNonEmptyListCopy, pandaListCopy, -1); //pass -inf and +inf as maxFed and mainFed
 
     }
 
-    public int solutionCHelper(ArrayList<ArrayList<Panda>> sortedNonEmptyList,ArrayList<Panda> pandaListCopy){
+    public int solutionCHelper(ArrayList<ArrayList<Panda>> sortedNonEmptyList,ArrayList<Panda> pandaListCopy, int minFed){
         int leastFedCount = 9999;
         int leastFedPanda = 0;
+
+        boolean minFedFlag = true;
         for(Panda p : pandaListCopy){
+
             int fedCount = p.getAlreadyEatenStateCount();
+            if(fedCount == -1){
+                minFedFlag = false;
+                continue;
+            }
             if (fedCount <= leastFedCount) {
                 leastFedCount = fedCount;
                 leastFedPanda = p.getPandaNum()-1;
             }
+
+        }
+        if(minFedFlag){
+            minFed = leastFedCount;
         }
 
         //base case
@@ -298,7 +309,7 @@ public class Solution {
 
             }
 
-            return maxFed - leastFedCount;
+            return maxFed - minFed;
         }
 
 
@@ -317,18 +328,16 @@ public class Solution {
                 pandaListCopyCopy.get(leastFedPanda).addAlreadyEatenCount();
                 ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
                 sortedNonEmptyListCopy.remove(i);
-                minSol = Math.min(solutionCHelper(sortedNonEmptyListCopy,pandaListCopyCopy),minSol);
+                minSol = Math.min(solutionCHelper(sortedNonEmptyListCopy,pandaListCopyCopy, minFed),minSol);
             }
         }
+        if(minSol == 99999){
+            pandaListCopy.get(leastFedPanda).setAlreadyEatenStateCount(-1);
+            minFed = leastFedCount;
+
+            minSol = Math.min(solutionCHelper(sortedNonEmptyList,pandaListCopy, minFed),minSol);
+        }
         return minSol;
-
-
-
-
-
-        /*ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = (ArrayList<ArrayList<Panda>>) sortedNonEmptyList.clone();
-        ArrayList<Panda> pandaListCopyCopy = (ArrayList<Panda>) pandaListCopy.clone();
-        return solutionCHelper(sortedNonEmptyList, pandaListCopyCopy);*/
 
     }
 /*
