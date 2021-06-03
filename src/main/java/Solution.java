@@ -103,31 +103,228 @@ public class Solution {
                     int leastFedPanda = 0;
 
 
-
+                    HashSet<Panda> neighbours = new HashSet<>();
                     for (Panda panda : spot) {
                         int fedCount = panda.getAlreadyEatenStateCount();
                         if (fedCount < leastFedCount) {
                             leastFedCount = fedCount;
                             leastFedPanda = panda.getPandaNum() - 1;
+                            neighbours.add(panda);
                         }
                     }
                     pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+                    for(Panda panda : spot){
+                        panda.addNeighbours(neighbours);
+                    }
                 }
             }
 
+
             //find the max eaten and min eaten spot by a given panda
-            int maxFed = 0;
-            int leastFed = 9999;
-            for (Panda panda : pandaList) {
-                int fedCount = panda.getAlreadyEatenStateCount();
-                if (fedCount > maxFed) maxFed = fedCount;
-                if (fedCount < leastFed) leastFed = fedCount;
+            int result = 0;
+            while (true){
+              int maxFed = 0;
+              int leastFed = 9999;
+              Panda p = null;
+              for (Panda panda : pandaList) {
+                  int fedCount = panda.getAlreadyEatenStateCount();
+                  if (fedCount > maxFed) maxFed = fedCount;
+                  if (fedCount < leastFed){
+                      leastFed = fedCount;
+                      p = panda;
+                  }
+              }
+              p.giveBamboo();
+              if(result == (maxFed - leastFed)) return result;
+              result = maxFed -leastFed;
             }
 
 
-            return maxFed - leastFed; //return the max difference
+        /*
+        int leastFedPanda = 0;
+        int mostFedPanda = 0;
+        int maxFed = 0;
+        int leastFed = 9999;
+
+        pandaList.sort(new Comparator<Panda>() { //ascending order
+            @Override
+            public int compare(Panda panda, Panda t1) {
+                return panda.getAlreadyEatenStateCount() - t1.getAlreadyEatenStateCount();
+            }
+        });
+
+       for (Panda panda : pandaList) {
+            leastFedPanda = panda.getPandaNum();
+            int maxNeighbour = 0;
+            int maxNeighbourPanda = 0;
+            for(int a : pandaList.get(leastFedPanda).getNeighbours()){
+                int ate = pandaList.get(a).getAlreadyEatenStateCount();
+                if(ate>maxNeighbour){
+                    maxNeighbour = ate;
+                    maxNeighbourPanda = a;
+                }
+            }
+            if (maxNeighbour == 0) continue;
+            pandaList.get(maxNeighbourPanda).decrementAlreadyEatenCount();
+            pandaList.get(leastFedPanda).addAlreadyEatenCount();
+        }
+*/
+
+            //return the max difference
         }
 
+
+    public int solutionC() {
+        //A > B
+        //initialize grid state space
+        ArrayList<Panda>[][] spots = new ArrayList[gardenWidth][gardenHeight]; //x,y
+
+        //iterate through panda's and update grid values by adding panda names where they can eat
+        for (Panda panda : pandaList) {
+            int currentX = panda.getX();
+            int currentY = panda.getY();
+            int pandaS = panda.getS();
+
+            //top left corner of the grid
+            int topLeftCornerX = currentX - pandaS;
+            int topLeftCornerY = currentY - pandaS;
+
+
+            for (int i = topLeftCornerX; i <= currentX + pandaS; i++) {
+                for (int j = topLeftCornerY; j <= currentY + pandaS; j++) {
+
+                    //check if the current state is within the boundaries of the grid space
+                    if ((i < 0) | (j < 0) | (i >= gardenWidth) | (j >= gardenHeight)) {
+                        continue;
+                    }
+
+                    if (spots[i][j] == null) {
+                        spots[i][j] = new ArrayList<>();
+                    }
+
+
+                    spots[i][j].add(panda);
+
+
+                }
+            }
+        }
+
+        //making states with panda initialized in them are not edible
+        for (Panda panda : pandaList) {
+            int currentX = panda.getX();
+            int currentY = panda.getY();
+
+            spots[currentX][currentY] = new ArrayList<Panda>();
+        }
+
+
+        //filter the states that can be reached and eaten by pandas and map that information to sortedNonEmptyList
+        //ArrayList<ArrayList<Panda>
+
+        ArrayList<ArrayList<Panda>> sortedNonEmptyList = new ArrayList<>();
+
+        for (int i = 0; i < spots.length; i++) {
+            for (int j = 0; j < spots[0].length; j++) {
+                //System.out.println(spots[i][j]);
+                ArrayList<Panda> state = spots[i][j];
+                if(state != null){
+                    if (state.size() > 0) {
+                        sortedNonEmptyList.add(state);
+                    }
+                }
+
+            }
+        }
+        sortedNonEmptyList.sort(new Comparator<ArrayList<Panda>>() {
+            @Override
+            public int compare(ArrayList<Panda> pandas, ArrayList<Panda> t1) {
+                return  pandas.size() - t1.size(); //sorts in descending order
+            }
+        });
+
+
+         /*sortedNonEmptyList = Arrays.stream(spots).filter(state -> state.length > 0).sorted(new Comparator<ArrayList<Panda>[]>() {
+            @Override
+            public int compare(ArrayList<Panda>[] arrayLists, ArrayList<Panda>[] t1) {
+                return t1.length - arrayLists.length; //sorts in descending order
+            }
+        }).collect();*/
+        while(true){
+                    if(sortedNonEmptyList.isEmpty()){
+                        break;
+                    }
+                    ArrayList<Panda> spot = sortedNonEmptyList.get(0);
+                    if(spot.size()==1){
+                        pandaList.get(spot.get(0).getPandaNum() - 1).addAlreadyEatenCount();
+                        sortedNonEmptyList.remove(0);
+                    }else{
+                        break;
+                    }
+                }
+
+
+
+        ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
+        ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
+
+        //start recursive call
+        return solutionCHelper( sortedNonEmptyListCopy, pandaListCopy); //pass -inf and +inf as maxFed and mainFed
+
+    }
+
+    public int solutionCHelper(ArrayList<ArrayList<Panda>> sortedNonEmptyList,ArrayList<Panda> pandaListCopy){
+        int leastFedCount = 9999;
+        int leastFedPanda = 0;
+        for(Panda p : pandaListCopy){
+            int fedCount = p.getAlreadyEatenStateCount();
+            if (fedCount <= leastFedCount) {
+                leastFedCount = fedCount;
+                leastFedPanda = p.getPandaNum()-1;
+            }
+        }
+
+        //base case
+        if(sortedNonEmptyList.size() == 0){
+
+            int maxFed = 0;
+
+            for (Panda panda : pandaListCopy) {
+                int fedCount = panda.getAlreadyEatenStateCount();
+                if (fedCount >= maxFed) maxFed = fedCount;
+
+            }
+
+            return maxFed - leastFedCount;
+        }
+
+
+        int minSol = 99999;
+        for(ArrayList<Panda> spot : sortedNonEmptyList){
+
+            int finalLeastFedPanda = leastFedPanda + 1;
+            //spot.contains(pandaListCopy.get(leastFedPanda).getPandaNum())
+            if(spot.stream().anyMatch(x -> Integer.compare(x.getPandaNum(), finalLeastFedPanda) == 0)){
+                //ArrayList<Panda> pandaListCopyCopy = (ArrayList<Panda>) pandaListCopy.clone();
+                ArrayList<Panda> pandaListCopyCopy = DeepCopyPandaList(pandaListCopy);
+
+                pandaListCopyCopy.get(leastFedPanda).addAlreadyEatenCount();
+                ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
+                sortedNonEmptyListCopy.remove(spot);
+                minSol = Math.min(solutionCHelper(sortedNonEmptyListCopy,pandaListCopyCopy),minSol);
+            }
+        }
+        return minSol;
+
+
+
+
+
+        /*ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = (ArrayList<ArrayList<Panda>>) sortedNonEmptyList.clone();
+        ArrayList<Panda> pandaListCopyCopy = (ArrayList<Panda>) pandaListCopy.clone();
+        return solutionCHelper(sortedNonEmptyList, pandaListCopyCopy);*/
+
+    }
 /*
 
     public int solutionAImproved(){
@@ -401,6 +598,30 @@ public class Solution {
 
         public void setPandaList (ArrayList < Panda > pandaList) {
             this.pandaList = pandaList;
+        }
+
+        //helper methods for SolutionC
+        public ArrayList<ArrayList<Panda>> DeepCopySortedNonEmptyList(ArrayList<ArrayList<Panda>> sortedNonEmptyList){
+            ArrayList<ArrayList<Panda>> cloneList = new ArrayList<ArrayList<Panda>>();
+            for(ArrayList<Panda> el : sortedNonEmptyList){
+                ArrayList<Panda> newPList = new ArrayList<Panda>();
+                for(Panda p: el){
+                    Panda pandaClone = new Panda(p.getX(), p.getY(), p.getS(), p.getAlreadyEatenStateCount(), p.getPandaNum());
+                    newPList.add(pandaClone);
+                }
+                cloneList.add(newPList);
+            }
+
+            return cloneList;
+        }
+
+        public ArrayList<Panda> DeepCopyPandaList(ArrayList<Panda> pandaList){
+            ArrayList<Panda> newPandaList = new ArrayList<Panda>();
+            for(Panda p: pandaList){
+                Panda pandaClone = new Panda(p.getX(), p.getY(), p.getS(), p.getAlreadyEatenStateCount(), p.getPandaNum());
+                newPandaList.add(pandaClone);
+            }
+            return newPandaList;
         }
 
     }

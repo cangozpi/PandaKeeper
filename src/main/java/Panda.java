@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class Panda {
-
 
     private int x;
     private int y;
@@ -12,7 +13,7 @@ public class Panda {
     private HashMap<Spot.Coordinate,Spot> spots = new HashMap<Spot.Coordinate, Spot>();
     private int alreadyEatenStateCount = 0; //number of grids that panda is assigned to eat
     private int pandaNum;
-
+    private HashSet<Panda> neighbours;
     public Panda(int x, int y, int s){
         this.x = x;
         this.y = y;
@@ -22,7 +23,39 @@ public class Panda {
         System.out.println("Panda no: "+ Panda_num + " X: " + x + " Y: " + y + " S: " + s);
 
     }
+    public Panda(int x, int y, int s, int alreadyEatenStateCount, int pandaNum){
+        this.x = x;
+        this.y = y;
+        this.s = s;
+        this.pandaNum = pandaNum;
+        this.alreadyEatenStateCount = alreadyEatenStateCount;
+    }
 
+
+    public void addNeighbours(HashSet<Panda> a){
+        if(a != null)neighbours.addAll(a);
+    }
+
+    public HashSet<Panda> getNeighbours(){return neighbours;}
+    public boolean giveBamboo(){
+        if(neighbours!=null){
+          int max = 0;
+                  Panda m = null;
+                  for (Panda panda: neighbours) {
+                      if(panda.getAlreadyEatenStateCount()>max){
+                          m = panda;
+                      }
+                  }
+                  if(m.alreadyEatenStateCount>alreadyEatenStateCount){
+                      alreadyEatenStateCount++;
+                      m.giveBamboo();
+                  }else{
+                      alreadyEatenStateCount--;
+                  }
+                  return true;
+        }
+        return false;
+    }
     public int getX() {
         return x;
     }
@@ -58,6 +91,10 @@ public class Panda {
 
     public void addAlreadyEatenCount(){
         alreadyEatenStateCount++;
+    }
+
+    public void decrementAlreadyEatenCount(){
+        alreadyEatenStateCount--;
     }
 
     public void addSpot(Spot s){

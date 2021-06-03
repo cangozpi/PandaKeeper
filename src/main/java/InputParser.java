@@ -9,7 +9,7 @@ public class InputParser {
     public ArrayDeque<Integer> parseInput() throws Exception{
 
 
-        BufferedReader br = new BufferedReader(new FileReader("Input2"));
+        BufferedReader br = new BufferedReader(new FileReader("Input3"));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
