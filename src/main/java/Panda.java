@@ -11,13 +11,14 @@ public class Panda {
     private static int Panda_num = 0;
     private HashMap<Spot.Coordinate,Spot> spots = new HashMap<Spot.Coordinate, Spot>();
     private int alreadyEatenStateCount = 0; //number of grids that panda is assigned to eat
-
+    private int pandaNum;
 
     public Panda(int x, int y, int s){
         this.x = x;
         this.y = y;
         this.s = s;
         Panda_num += 1;
+        pandaNum = Panda_num;
         System.out.println("Panda no: "+ Panda_num + " X: " + x + " Y: " + y + " S: " + s);
 
     }
@@ -56,7 +57,7 @@ public class Panda {
     }
 
     public void addAlreadyEatenCount(){
-        this.alreadyEatenStateCount++;
+        alreadyEatenStateCount++;
     }
 
     public void addSpot(Spot s){
@@ -70,5 +71,13 @@ public class Panda {
 
     public int getAlreadyEatenStateCount(){
         return alreadyEatenStateCount;
+    }
+
+    public int getPandaNum() {
+        return pandaNum;
+    }
+
+    public void setPandaNum(int pandaNum) {
+        this.pandaNum = pandaNum;
     }
 }

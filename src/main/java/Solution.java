@@ -32,8 +32,8 @@ public class Solution {
             int topLeftCornerY = currentY - pandaS;
 
 
-            for (int i = topLeftCornerX; i < currentX + pandaS; i++) {
-                for (int j = topLeftCornerY; j < currentY + pandaS; j++) {
+            for (int i = topLeftCornerX; i <= currentX + pandaS; i++) {
+                for (int j = topLeftCornerY; j <= currentY + pandaS; j++) {
 
                     //check if the current state is within the boundaries of the grid space
                     if ((i < 0) | (j < 0) | (i >= gardenWidth) | (j >= gardenHeight)) {
@@ -52,11 +52,11 @@ public class Solution {
             }
         }
 
-        //making states with panda initialized in them uneatable
+        //making states with panda initialized in them are not edible
         for (Panda panda : pandaList) {
             int currentX = panda.getX();
             int currentY = panda.getY();
-            int pandaS = panda.getS();
+
             spots[currentX][currentY] = new ArrayList<Panda>();
         }
 
@@ -81,7 +81,7 @@ public class Solution {
             sortedNonEmptyList.sort(new Comparator<ArrayList<Panda>>() {
                 @Override
                 public int compare(ArrayList<Panda> pandas, ArrayList<Panda> t1) {
-                    return t1.size() - pandas.size(); //sorts in descending order
+                    return  pandas.size() - t1.size(); //sorts in descending order
                 }
             });
 
@@ -97,15 +97,18 @@ public class Solution {
             //assign states with only 1 panda in i to that panda to ea
             for (ArrayList<Panda> spot : sortedNonEmptyList) {
                 if (spot.size() == 1) {//if only 1 panda can reach the state than assign that state to the corresponding panda
-                    pandaList.get(spot.get(0).getPanda_num()-1).addAlreadyEatenCount();
+                    pandaList.get(spot.get(0).getPandaNum() - 1).addAlreadyEatenCount();
                 } else {//if more than 1 panda can reach the given state then assign that spot to the panda who has eaten the least up to that point
                     int leastFedCount = 9999;// 9999 represents pos_infinity
                     int leastFedPanda = 0;
+
+
+
                     for (Panda panda : spot) {
-                        int fedCount = pandaList.get(panda.getPanda_num()-1).getAlreadyEatenStateCount();
+                        int fedCount = panda.getAlreadyEatenStateCount();
                         if (fedCount < leastFedCount) {
                             leastFedCount = fedCount;
-                            leastFedPanda = panda.getPanda_num() -1;
+                            leastFedPanda = panda.getPandaNum() - 1;
                         }
                     }
                     pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state

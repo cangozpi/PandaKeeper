@@ -40,8 +40,6 @@ public class Main {
             }
             if(isSolutionA== true){
                 result = sol.solutionA();
-            }else{
-                result = sol.solutionB();
             }
             System.out.println("Result = " + result);
             long endTime   = System.nanoTime();
