@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class PandaArea {
 
     private Panda centerPanda;
@@ -8,15 +10,18 @@ public class PandaArea {
     private int center_y;
     private boolean hasAnotherPanda;
 
-    public PandaArea(){
+
+    public PandaArea(int x, int y, int s){
 
     }
 
+     public int assign_food(){
 
+       return 0 ;
+};
     public int bambooNumber() {
-    return ((height*width) - panda_population);
+    return ((height*width) - 1);
         };
-
 
     public boolean hasPanda() {
         return hasAnotherPanda;

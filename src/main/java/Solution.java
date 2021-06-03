@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution {
 
@@ -35,24 +34,19 @@ public class Solution {
 
 
 
-            for(int i = topLeftCornerX; i < topLeftCornerX +pandaS; i++){
-                for(int j = topLeftCornerY; j < topLeftCornerY + pandaS ; j++){
+            for(int i = topLeftCornerX; i < topLeftCornerX +pandaS; i++) {
+                for (int j = topLeftCornerY; j < topLeftCornerY + pandaS; j++) {
 
                     //check if the current state is within the boundaries of the grid space
-                    if((i < 0) | (j < 0) | (j > gardenWidth) | (j > gardenHeight)){
+                    if ((i < 0) | (j < 0) | (i > gardenWidth) | (j > gardenHeight)) {
                         continue;
                     }
 
                     spots[i][j].add(panda);
 
 
-
-
-
                 }
-
-
-                }
+            }
         }
 
         //making states with panda initialized in them uneatable
@@ -63,7 +57,25 @@ public class Solution {
             spots[currentX][currentY] = new ArrayList<Panda>();
         }
 
+
+        //filter the states that can be reached and eaten by pandas and map that information to sortedNonEmptyList
+        ArrayList<ArrayList<Panda>> sortedNonEmptyList = (ArrayList<ArrayList<Panda>>) Arrays.stream(spots).filter(state -> state.length > 0).sorted(new Comparator<ArrayList<Panda>[]>() {
+            @Override
+            public int compare(ArrayList<Panda>[] arrayLists, ArrayList<Panda>[] t1) {
+                return t1.length - arrayLists.length; //sorts in descending order
+            }
+        }).collect(Collectors.toList());
+
         //assign states with only 1 panda in i to that panda to eat
+        for ( ArrayList<Panda> spot: sortedNonEmptyList) {
+            if(spot.size() == 1){
+                pandaList.get(spot.get(0).getPanda_num()).addAlreadyEatenCount();
+            }else{
+                for(panda : spot){
+                    pandaList.get(panda.ge)
+                }
+            }
+        }
 
         //assign one of the states that is shared between pandas to the panda that has eaten the least up to that point(might use PQ)
 
@@ -102,8 +114,11 @@ public class Solution {
 
 
         for(int i = 0; i < pandaList.size(); i++){
-
-            PandaArea p = new PandaArea();
+            Panda curPanda = pandaList.get(i);
+            int s = curPanda.getS();
+            int x = curPanda.getX();
+            int y = curPanda.getY();
+            PandaArea p = new PandaArea(x,y,s);
 
 
 
@@ -114,6 +129,7 @@ public class Solution {
             int s = curPanda.getS();
             int x = curPanda.getX();
             int y = curPanda.getY();
+
             if(x-s> 0){
                 if (y-s>0){
                     //top left corner in garden

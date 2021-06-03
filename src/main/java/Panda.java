@@ -9,6 +9,7 @@ public class Panda {
     private int s;
     private static int Panda_num = 0;
     private ArrayList<Spot> spots;
+    private int alreadyEatenStateCount = 0; //number of grids that panda is assigned to eat
 
     public Panda(int x, int y, int s){
         this.x = x;
@@ -50,5 +51,13 @@ public class Panda {
 
     public void resetPandaNo(){
         setPanda_num(0);
+    }
+
+    public void addAlreadyEatenCount(){
+        this.alreadyEatenStateCount++;
+    }
+
+    public int getAlreadyEatenStateCount(){
+        return alreadyEatenStateCount;
     }
 }
