@@ -25,29 +25,27 @@ public class Main {
         int numPandasTotal = 0;
         int a = inputParameters.removeFirst();
         for (int testCaseNo = 0; testCaseNo < a; testCaseNo++) {   //loops test cas
+            Panda.resetPandaNo();
             long startTime = System.nanoTime();
             int height = inputParameters.removeFirst();
             int width = inputParameters.removeFirst();
             int numPandas = inputParameters.removeFirst();
             int result = -1;
             Solution sol = new Solution(height, width, numPandas);
-
-            if(isSolutionA== false){
-                for (int pandaNo = 0; pandaNo < numPandas; pandaNo++) {
-                    int pandaX = inputParameters.removeFirst();
-                    int pandaY = inputParameters.removeFirst();
-                    int pandaS = inputParameters.removeFirst();
-                    sol.addPanda(pandaX, pandaY, pandaS);
-                }
-                result = sol.solutionB();
-            }else{
+            for (int pandaNo = 0; pandaNo < numPandas; pandaNo++) {
+                int pandaX = inputParameters.removeFirst()-1;
+                int pandaY = inputParameters.removeFirst()-1;
+                int pandaS = inputParameters.removeFirst();
+                sol.addPanda(pandaX, pandaY, pandaS);
+            }
+            if(isSolutionA== true){
                 result = sol.solutionA();
             }
-            System.out.println(result);
+            System.out.println("Result = " + result);
             long endTime   = System.nanoTime();
             long totalTime = endTime - startTime;
 
-            System.out.println((totalTime/10^9));
+            System.out.println("Time = " + (totalTime/10^9));
 
         }
 
