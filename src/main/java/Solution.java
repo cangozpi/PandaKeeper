@@ -59,27 +59,46 @@ public class Solution {
 
 
         //filter the states that can be reached and eaten by pandas and map that information to sortedNonEmptyList
-        ArrayList<ArrayList<Panda>> sortedNonEmptyList = (ArrayList<ArrayList<Panda>>) Arrays.stream(spots).filter(state -> state.length > 0).sorted(new Comparator<ArrayList<Panda>[]>() {
+        //ArrayList<ArrayList<Panda>
+
+        List<ArrayList<Panda>[]> sortedNonEmptyList = Arrays.stream(spots).filter(state -> state.length > 0).sorted(new Comparator<ArrayList<Panda>[]>() {
             @Override
             public int compare(ArrayList<Panda>[] arrayLists, ArrayList<Panda>[] t1) {
                 return t1.length - arrayLists.length; //sorts in descending order
             }
         }).collect(Collectors.toList());
 
+        ArrayList<Panda> sortedNonEmptyList2 = new ArrayList<Panda>(sortedNonEmptyList);
+
         //assign states with only 1 panda in i to that panda to eat
-        for ( ArrayList<Panda> spot: sortedNonEmptyList) {
-            if(spot.size() == 1){
+        for ( ArrayList<Panda> spot: sortedNonEmptyList2) {
+            if(spot.size() == 1){//if only 1 panda can reach the state than assign that state to the corresponding panda
                 pandaList.get(spot.get(0).getPanda_num()).addAlreadyEatenCount();
-            }else{
-                for(panda : spot){
-                    pandaList.get(panda.ge)
+            }else{//if more than 1 panda can reach the given state then assign that spot to the panda who has eaten the least up to that point
+                int leastFedCount = 9999;// 9999 represents pos_infinity
+                int leastFedPanda = 0;
+                for(Panda panda : spot){
+                   int fedCount = pandaList.get(panda.getPanda_num()).getAlreadyEatenStateCount();
+                    if(fedCount < leastFedCount){
+                        leastFedCount = fedCount;
+                        leastFedCount = panda.getPanda_num();
+                    }
                 }
+                pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
             }
         }
 
-        //assign one of the states that is shared between pandas to the panda that has eaten the least up to that point(might use PQ)
+        //find the max eaten and min eaten spot by a given panda
+        int maxFed = 0;
+        int leastFed = 9999;
+        for(Panda panda : pandaList){
+            int fedCount = panda.getAlreadyEatenStateCount();
+            if(fedCount>maxFed)maxFed = fedCount;
+            if(fedCount<leastFed)leastFed = fedCount;
+        }
 
-        return 0;
+
+        return maxFed -leastFed; //return the max difference
     }
 
     public class Coordinate{
@@ -123,6 +142,9 @@ public class Solution {
 
 
         }
+
+
+
 
         for(int i = 0; i < pandaList.size(); i++){
             Panda curPanda = pandaList.get(i);
