@@ -13,7 +13,8 @@ public class Panda {
     private HashMap<Spot.Coordinate,Spot> spots = new HashMap<Spot.Coordinate, Spot>();
     private int alreadyEatenStateCount = 0; //number of grids that panda is assigned to eat
     private int pandaNum;
-    private HashSet<Panda> neighbours;
+
+    private HashSet<Panda> neighbours = new HashSet<>();
     public Panda(int x, int y, int s){
         this.x = x;
         this.y = y;
@@ -37,24 +38,24 @@ public class Panda {
     }
 
     public HashSet<Panda> getNeighbours(){return neighbours;}
-    public boolean giveBamboo(){
-        if(neighbours!=null){
-          int max = 0;
-                  Panda m = null;
-                  for (Panda panda: neighbours) {
-                      if(panda.getAlreadyEatenStateCount()>max){
-                          m = panda;
-                      }
-                  }
-                  if(m.alreadyEatenStateCount>alreadyEatenStateCount){
-                      alreadyEatenStateCount++;
-                      m.giveBamboo();
-                  }else{
-                      alreadyEatenStateCount--;
-                  }
-                  return true;
+    public void giveBamboo(){
+        if(neighbours!=null) {
+            int max = 0;
+            Panda m = null;
+            for (Panda panda : neighbours) {
+                if (panda.getAlreadyEatenStateCount() > max) {
+                    m = panda;
+                }
+            }
+            if (m.alreadyEatenStateCount > alreadyEatenStateCount) {
+                alreadyEatenStateCount++;
+                m.giveBamboo();
+                m.decreaseBamboo();
+            }
         }
-        return false;
+    }
+    public void decreaseBamboo(){
+        alreadyEatenStateCount--;
     }
     public int getX() {
         return x;

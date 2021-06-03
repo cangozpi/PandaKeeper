@@ -133,10 +133,13 @@ public class Solution {
                       leastFed = fedCount;
                       p = panda;
                   }
+                  panda.giveBamboo();
               }
-              p.giveBamboo();
-              if(result == (maxFed - leastFed)) return result;
+
+              System.out.println("Max:"+maxFed + " Min:" + leastFed);
+             // if(result == (maxFed - leastFed)) return result;
               result = maxFed -leastFed;
+              System.out.println(result);
             }
 
 
@@ -285,7 +288,7 @@ public class Solution {
         }
 
         //base case
-        if(sortedNonEmptyList.size() == 0){
+        if(sortedNonEmptyList.isEmpty()){
 
             int maxFed = 0;
 
@@ -300,7 +303,10 @@ public class Solution {
 
 
         int minSol = 99999;
-        for(ArrayList<Panda> spot : sortedNonEmptyList){
+        //for(ArrayList<Panda> spot : sortedNonEmptyList){
+        for(int i = 0; i < sortedNonEmptyList.size(); i++){
+            ArrayList<Panda> spot = sortedNonEmptyList.get(i);
+
 
             int finalLeastFedPanda = leastFedPanda + 1;
             //spot.contains(pandaListCopy.get(leastFedPanda).getPandaNum())
@@ -310,7 +316,7 @@ public class Solution {
 
                 pandaListCopyCopy.get(leastFedPanda).addAlreadyEatenCount();
                 ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
-                sortedNonEmptyListCopy.remove(spot);
+                sortedNonEmptyListCopy.remove(i);
                 minSol = Math.min(solutionCHelper(sortedNonEmptyListCopy,pandaListCopyCopy),minSol);
             }
         }
