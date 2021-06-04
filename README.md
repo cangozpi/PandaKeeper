@@ -16,9 +16,9 @@ TO DO LIST
   -->Updating assigning pandas
   Using Distance Vector principles counting the neighbour pandas, look after each neighbours bamboo count and distribute by taking from the most feed neighbour.
   -->Brute force with recursion
-  
+  By Assigning every spot to Pandas, check the overlapping spots and distrbute accordingly, recursion ends with when all spots are assigned.
   -->Random Method
-  
+  By Assigning overlapping spots randomly, and saving results we can find the optimal distribution with high percentage.
 Results for:
 
 Input 1 : 4, 0
@@ -27,4 +27,4 @@ Input 3 : 0, 0, 10
 Input 4 : 1
 
 How to run the code : 
-There are 4 Input files , which our Input Parser class reads. Userss need to manually change the desired Input file in order to get the necessary output. File name should be changed in Buffered Reader declaration.
+There are 4 Input files , which our Input Parser class reads. Users need to manually change the desired Input file in order to get the necessary output. File name should be changed in Buffered Reader declaration.
