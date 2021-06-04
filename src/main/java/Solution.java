@@ -273,50 +273,56 @@ public class Solution {
 
         HashMap<Integer,Integer> results = new HashMap<Integer,Integer>();
 
-
-        for(int i = 0; i< 100; i++){
+        int minResult = 9999;
+        for(int i = 0; i< 100; i++) {
             ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
             ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
 
-             while(!sortedNonEmptyListCopy.isEmpty()){
-                        Random rgen = new Random();
-                        int r = rgen.nextInt(sortedNonEmptyListCopy.size());
-                        ArrayList<Panda> spot = sortedNonEmptyListCopy.remove(r);
+            while (!sortedNonEmptyListCopy.isEmpty()) {
+                Random rgen = new Random();
+                int r = rgen.nextInt(sortedNonEmptyListCopy.size());
+                ArrayList<Panda> spot = sortedNonEmptyListCopy.remove(r);
 
-                        int leastFedCount = 9999;// 9999 represents pos_infinity
-                        int leastFedPanda = 0;
+                int leastFedCount = 9999;// 9999 represents pos_infinity
+                int leastFedPanda = 0;
 
-                        for (Panda panda : spot) {
-                            int fedCount = pandaListCopy.get(panda.getPandaNum()-1).getAlreadyEatenStateCount();
-                            if (fedCount < leastFedCount) {
-                                leastFedCount = fedCount;
-                                leastFedPanda = panda.getPandaNum() - 1;
-                            }
-                        }
-                        pandaListCopy.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
-
+                for (Panda panda : spot) {
+                    int fedCount = pandaListCopy.get(panda.getPandaNum() - 1).getAlreadyEatenStateCount();
+                    if (fedCount < leastFedCount) {
+                        leastFedCount = fedCount;
+                        leastFedPanda = panda.getPandaNum() - 1;
                     }
-                    int maxFed = 0;
-                    int leastFed = 9999;
-                    for (Panda panda : pandaListCopy) {
-                        int fedCount = panda.getAlreadyEatenStateCount();
-                        if (fedCount > maxFed) maxFed = fedCount;
-                        if (fedCount < leastFed) leastFed = fedCount;
-                    }
+                }
+                pandaListCopy.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+
+            }
+            int maxFed = 0;
+            int leastFed = 9999;
+            for (Panda panda : pandaListCopy) {
+                int fedCount = panda.getAlreadyEatenStateCount();
+                if (fedCount > maxFed) maxFed = fedCount;
+                if (fedCount < leastFed) leastFed = fedCount;
+            }
             int res = maxFed - leastFed;
-            if(res <= 1 ){        //already best result so no need to loop
+            if (res <= 1) {        //already best result so no need to loop
                 return res;
             }
+            /*
             if(results.containsKey(res)){
                 results.put(res, results.get(maxFed - leastFed)+1);
             } else{
                 results.put(res, 1);
             }
+            */
+
+            if (res < minResult) {
+                minResult = res;
 
 
-
+            }
         }
 
+        return minResult;
 
         /*
         for (ArrayList<Panda> spot : sortedNonEmptyList) {
@@ -343,7 +349,7 @@ public class Solution {
          */
 
         //find the max eaten and min eaten spot by a given panda
-
+        /*
         Iterator iterator = results.entrySet().iterator();
         int maxValue = -1;
         int maxKey = -1;
@@ -357,6 +363,8 @@ public class Solution {
         }
 
         return maxKey;//return the max difference
+
+         */
     }
 
     public int solutionC() {
