@@ -278,10 +278,10 @@ public class Solution {
             ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
             ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
 
-             while(!sortedNonEmptyListCopy.isEmpty()){
-                                        Random rgen = new Random();
-                        int r = rgen.nextInt(sortedNonEmptyListCopy.size());
-                        ArrayList<Panda> spot = sortedNonEmptyListCopy.remove(r);
+             while(!sortedNonEmptyList.isEmpty()){
+                        Random rgen = new Random();
+                        int r = rgen.nextInt(sortedNonEmptyList.size());
+                        ArrayList<Panda> spot = sortedNonEmptyList.remove(r);
 
                         int leastFedCount = 9999;// 9999 represents pos_infinity
                         int leastFedPanda = 0;
@@ -293,7 +293,7 @@ public class Solution {
                                 leastFedPanda = panda.getPandaNum() - 1;
                             }
                         }
-                        pandaListCopy.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+                        pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
 
                     }
                     int maxFed = 0;
