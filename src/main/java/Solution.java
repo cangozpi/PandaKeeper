@@ -278,22 +278,22 @@ public class Solution {
             ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
             ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
 
-             while(!sortedNonEmptyList.isEmpty()){
+             while(!sortedNonEmptyListCopy.isEmpty()){
                         Random rgen = new Random();
-                        int r = rgen.nextInt(sortedNonEmptyList.size());
-                        ArrayList<Panda> spot = sortedNonEmptyList.remove(r);
+                        int r = rgen.nextInt(sortedNonEmptyListCopy.size());
+                        ArrayList<Panda> spot = sortedNonEmptyListCopy.remove(r);
 
                         int leastFedCount = 9999;// 9999 represents pos_infinity
                         int leastFedPanda = 0;
 
                         for (Panda panda : spot) {
-                            int fedCount = panda.getAlreadyEatenStateCount();
+                            int fedCount = pandaListCopy.get(panda.getPandaNum()-1).getAlreadyEatenStateCount();
                             if (fedCount < leastFedCount) {
                                 leastFedCount = fedCount;
                                 leastFedPanda = panda.getPandaNum() - 1;
                             }
                         }
-                        pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+                        pandaListCopy.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
 
                     }
                     int maxFed = 0;
@@ -304,6 +304,9 @@ public class Solution {
                         if (fedCount < leastFed) leastFed = fedCount;
                     }
             int res = maxFed - leastFed;
+            if(res <= 1 ){        //already best result so no need to loop
+                return res;
+            }
             if(results.containsKey(res)){
                 results.put(res, results.get(maxFed - leastFed)+1);
             } else{

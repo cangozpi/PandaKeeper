@@ -39,7 +39,7 @@ public class Main {
                 sol.addPanda(pandaX, pandaY, pandaS);
             }
             if(isSolutionA== true){
-                result = sol.solutionD();
+                result = sol.solutionA();
             }
             System.out.println("Result = " + result);
             long endTime   = System.nanoTime();
