@@ -7,10 +7,13 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+    static int SOLUTION_NO = 3;         // solution = 1 distance vector inspired
+                                 // solution = 2 dynamic programming
+                                 // solution = 3 randomization
 
     public static void main(String args[]) {
 
-        boolean isSolutionA = true;
+
 
         InputParser parser = new InputParser();
         ArrayDeque<Integer> inputParameters = new ArrayDeque<Integer>();
@@ -38,9 +41,22 @@ public class Main {
                 int pandaS = inputParameters.removeFirst();
                 sol.addPanda(pandaX, pandaY, pandaS);
             }
-            if(isSolutionA== true){
-                result = sol.solutionD();
+            switch(SOLUTION_NO){
+                case 1:
+                    result = sol.solutionA();
+                    break;
+                case 2:
+                    result = sol.solutionC();
+                    break;
+                case 3:
+                    result = sol.solutionD();
+                    break;
+                default:
+                    result = sol.solutionA();
+                    break;
             }
+
+
             System.out.println("Result = " + result);
             long endTime   = System.nanoTime();
             long totalTime = endTime - startTime;
