@@ -11,7 +11,14 @@ TO DO LIST
 4- After reading the Input files send the fields to the solutions class and pass them to the solution methods.
 5- After calling the solution methods in the main class the programm outputs the correct results.
 6- Prepare different test cases to test programm.
-
+7- After testing edge cases distribution is not correct for multiple neighbours.
+  New Methods : 
+  -->Updating assigning pandas
+  Using Distance Vector principles counting the neighbour pandas, look after each neighbours bamboo count and distribute by taking from the most feed neighbour.
+  -->Brute force with recursion
+  
+  -->Random Method
+  
 Results for:
 
 Input 1 :
