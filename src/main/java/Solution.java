@@ -125,22 +125,25 @@ public class Solution {
             while (true){
               int maxFed = 0;
               int leastFed = 9999;
-              Panda p = null;
-              for (Panda panda : pandaList) {
-                  int fedCount = panda.getAlreadyEatenStateCount();
-                  if (fedCount > maxFed) maxFed = fedCount;
-                  if (fedCount < leastFed){
-                      leastFed = fedCount;
-                      p = panda;
-                  }
-                  panda.giveBamboo();
-              }
+                for (Panda panda : pandaList) {
+                    int fedCount = panda.getAlreadyEatenStateCount();
+                    if (fedCount > maxFed) maxFed = fedCount;
+                    if (fedCount < leastFed) {
+                        leastFed = fedCount;
+                    }
+                }
+                System.out.println("Max:"+maxFed + " Min:" + leastFed);
 
-              System.out.println("Max:"+maxFed + " Min:" + leastFed);
-             // if(result == (maxFed - leastFed)) return result;
-              result = maxFed -leastFed;
-              System.out.println(result);
+                if(result == (maxFed - leastFed)) break;
+                result = maxFed -leastFed;
+                if(result <= 1)break;
+
+                for (Panda panda: pandaList) {
+                    panda.giveBamboo();
+                }
             }
+        System.out.println("Result:" + result);
+        return result;
 
 
         /*
@@ -267,12 +270,18 @@ public class Solution {
                 break;
             }
         }
-        HashMap<Integer,Integer> results = new HashMap<Integer>();
-        for(int i = 0; i< 200; i++){
-             while(!sortedNonEmptyList.isEmpty()){
-                        Random rgen = new Random();
-                        int r = rgen.nextInt(sortedNonEmptyList.size());
-                        ArrayList<Panda> spot = sortedNonEmptyList.remove(r);
+
+        HashMap<Integer,Integer> results = new HashMap<Integer,Integer>();
+
+
+        for(int i = 0; i< 100; i++){
+            ArrayList<ArrayList<Panda>> sortedNonEmptyListCopy = DeepCopySortedNonEmptyList(sortedNonEmptyList);
+            ArrayList<Panda> pandaListCopy = DeepCopyPandaList(pandaList);
+
+             while(!sortedNonEmptyListCopy.isEmpty()){
+                                        Random rgen = new Random();
+                        int r = rgen.nextInt(sortedNonEmptyListCopy.size());
+                        ArrayList<Panda> spot = sortedNonEmptyListCopy.remove(r);
 
                         int leastFedCount = 9999;// 9999 represents pos_infinity
                         int leastFedPanda = 0;
@@ -284,21 +293,27 @@ public class Solution {
                                 leastFedPanda = panda.getPandaNum() - 1;
                             }
                         }
-                        pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+                        pandaListCopy.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
 
                     }
                     int maxFed = 0;
                     int leastFed = 9999;
-                    for (Panda panda : pandaList) {
+                    for (Panda panda : pandaListCopy) {
                         int fedCount = panda.getAlreadyEatenStateCount();
                         if (fedCount > maxFed) maxFed = fedCount;
                         if (fedCount < leastFed) leastFed = fedCount;
                     }
+            int res = maxFed - leastFed;
+            if(results.containsKey(res)){
+                results.put(res, results.get(maxFed - leastFed)+1);
+            } else{
+                results.put(res, 1);
+            }
 
 
 
         }
-       
+
 
         /*
         for (ArrayList<Panda> spot : sortedNonEmptyList) {
@@ -326,8 +341,19 @@ public class Solution {
 
         //find the max eaten and min eaten spot by a given panda
 
+        Iterator iterator = results.entrySet().iterator();
+        int maxValue = -1;
+        int maxKey = -1;
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            if(maxValue < (int) entry.getValue()){
+                maxKey = (int) entry.getKey();
+                maxValue = (int) entry.getValue();
+            }
 
-        return maxFed - leastFed; //return the max difference
+        }
+
+        return maxKey;//return the max difference
     }
 
     public int solutionC() {

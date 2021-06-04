@@ -43,10 +43,12 @@ public class Panda {
             int max = 0;
             Panda m = null;
             for (Panda panda : neighbours) {
+                if (this == panda) continue;
                 if (panda.getAlreadyEatenStateCount() > max) {
                     m = panda;
                 }
             }
+            if (m == null) return;
             if (m.alreadyEatenStateCount > alreadyEatenStateCount) {
                 alreadyEatenStateCount++;
                 m.giveBamboo();
