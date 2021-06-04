@@ -29,3 +29,7 @@ Input 4 : 1 - Best Runtime: 126503
 
 How to run the code : 
 There are 4 Input files , which our Input Parser class reads. Users need to manually change the desired Input file in order to get the necessary output. File name should be changed in Buffered Reader declaration.
+Change the SOLUTION_NO variable to the desired value in main class to run the desired solution. 
+SOLUTION_NO = 1 Distance vector inspired solution,
+SOLUTION_NO = 2 Dynamic Programming recursion solution,
+SOLUTION_NO = 3 Randomization
