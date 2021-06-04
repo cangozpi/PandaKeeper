@@ -22,10 +22,10 @@ TO DO LIST
 
 Results for:
 
-Input 1 : 4, 0 - Best Runtime: 
-Input 2 : 0, 0 - Best Runtime:
-Input 3 : 0, 0, 10 - Best Runtime:
-Input 4 : 1 - Best Runtime:
+Input 1 : 4, 0 - Best Runtime -> Case1: 325321, Case2: 10415
+Input 2 : 0, 0 - Best Runtime: -> Case1: 120092, Case2: 12494
+Input 3 : 0, 0, 10 - Best Runtime: -> Case1: 119756, Case2: 3563 , Case3: 17614
+Input 4 : 1 - Best Runtime: 126503
 
 How to run the code : 
 There are 4 Input files , which our Input Parser class reads. Users need to manually change the desired Input file in order to get the necessary output. File name should be changed in Buffered Reader declaration.
