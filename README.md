@@ -32,4 +32,8 @@ There are 4 Input files , which our Input Parser class reads. Users need to manu
 Change the SOLUTION_NO variable to the desired value in main class to run the desired solution. 
 SOLUTION_NO = 1 Distance vector inspired solution,
 SOLUTION_NO = 2 Dynamic Programming recursion solution,
-SOLUTION_NO = 3 Randomization
+SOLUTION_NO = 3 Randomization solution
+
+Summary:
+We implemented our solution in 2 parts. First part was creating a  efficient list to use in distributing the bamboos. We came up with 2 approaches storing pandas in cells and storing cells in pandas. We later figured out that storing pandas was more efficient and used that for our part 2. 
+In part 2 we came up with 3 algorithms distance vector, recursion and randomization. Distance vector and randomization use a greedy algorithm. Our best algorithm was the randomized one which runs the greedy algorithm for 100 times with different list combination and prints the smallest number.
