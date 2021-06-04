@@ -21,9 +21,10 @@ TO DO LIST
   
 Results for:
 
-Input 1 :
-Input 2 :
-Input 3 : 
+Input 1 : 4, 0
+Input 2 : 0, 0
+Input 3 : 0, 0, 10
+Input 4 : 1
 
 How to run the code : 
 There are 4 Input files , which our Input Parser class reads. Userss need to manually change the desired Input file in order to get the necessary output. File name should be changed in Buffered Reader declaration.
