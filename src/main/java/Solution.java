@@ -176,6 +176,159 @@ public class Solution {
             //return the max difference
         }
 
+    public int solutionD() {
+        //A > B
+        //initialize grid state space
+        ArrayList<Panda>[][] spots = new ArrayList[gardenWidth][gardenHeight]; //x,y
+
+        //iterate through panda's and update grid values by adding panda names where they can eat
+        for (Panda panda : pandaList) {
+            int currentX = panda.getX();
+            int currentY = panda.getY();
+            int pandaS = panda.getS();
+
+            //top left corner of the grid
+            int topLeftCornerX = currentX - pandaS;
+            int topLeftCornerY = currentY - pandaS;
+
+
+            for (int i = topLeftCornerX; i <= currentX + pandaS; i++) {
+                for (int j = topLeftCornerY; j <= currentY + pandaS; j++) {
+
+                    //check if the current state is within the boundaries of the grid space
+                    if ((i < 0) | (j < 0) | (i >= gardenWidth) | (j >= gardenHeight)) {
+                        continue;
+                    }
+
+                    if (spots[i][j] == null) {
+                        spots[i][j] = new ArrayList<>();
+                    }
+
+
+                    spots[i][j].add(panda);
+
+
+                }
+            }
+        }
+
+        //making states with panda initialized in them are not edible
+        for (Panda panda : pandaList) {
+            int currentX = panda.getX();
+            int currentY = panda.getY();
+
+            spots[currentX][currentY] = new ArrayList<Panda>();
+        }
+
+
+        //filter the states that can be reached and eaten by pandas and map that information to sortedNonEmptyList
+        //ArrayList<ArrayList<Panda>
+
+        ArrayList<ArrayList<Panda>> sortedNonEmptyList = new ArrayList<>();
+
+        for (int i = 0; i < spots.length; i++) {
+            for (int j = 0; j < spots[0].length; j++) {
+                //System.out.println(spots[i][j]);
+                ArrayList<Panda> state = spots[i][j];
+                if(state != null){
+                    if (state.size() > 0) {
+                        sortedNonEmptyList.add(state);
+                    }
+                }
+
+            }
+        }
+        sortedNonEmptyList.sort(new Comparator<ArrayList<Panda>>() {
+            @Override
+            public int compare(ArrayList<Panda> pandas, ArrayList<Panda> t1) {
+                return  pandas.size() - t1.size(); //sorts in descending order
+            }
+        });
+
+
+         /*sortedNonEmptyList = Arrays.stream(spots).filter(state -> state.length > 0).sorted(new Comparator<ArrayList<Panda>[]>() {
+            @Override
+            public int compare(ArrayList<Panda>[] arrayLists, ArrayList<Panda>[] t1) {
+                return t1.length - arrayLists.length; //sorts in descending order
+            }
+        }).collect();*/
+
+
+        //assign states with only 1 panda in i to that panda to ea
+        while(true){
+            if(sortedNonEmptyList.isEmpty()){
+                break;
+            }
+            ArrayList<Panda> spot = sortedNonEmptyList.get(0);
+            if(spot.size()==1){
+                pandaList.get(spot.get(0).getPandaNum() - 1).addAlreadyEatenCount();
+                sortedNonEmptyList.remove(0);
+            }else{
+                break;
+            }
+        }
+        HashMap<Integer,Integer> results = new HashMap<Integer>();
+        for(int i = 0; i< 200; i++){
+             while(!sortedNonEmptyList.isEmpty()){
+                        Random rgen = new Random();
+                        int r = rgen.nextInt(sortedNonEmptyList.size());
+                        ArrayList<Panda> spot = sortedNonEmptyList.remove(r);
+
+                        int leastFedCount = 9999;// 9999 represents pos_infinity
+                        int leastFedPanda = 0;
+
+                        for (Panda panda : spot) {
+                            int fedCount = panda.getAlreadyEatenStateCount();
+                            if (fedCount < leastFedCount) {
+                                leastFedCount = fedCount;
+                                leastFedPanda = panda.getPandaNum() - 1;
+                            }
+                        }
+                        pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+
+                    }
+                    int maxFed = 0;
+                    int leastFed = 9999;
+                    for (Panda panda : pandaList) {
+                        int fedCount = panda.getAlreadyEatenStateCount();
+                        if (fedCount > maxFed) maxFed = fedCount;
+                        if (fedCount < leastFed) leastFed = fedCount;
+                    }
+
+
+
+        }
+       
+
+        /*
+        for (ArrayList<Panda> spot : sortedNonEmptyList) {
+            if (spot.size() == 1) {//if only 1 panda can reach the state than assign that state to the corresponding panda
+                pandaList.get(spot.get(0).getPandaNum() - 1).addAlreadyEatenCount();
+            } else {//if more than 1 panda can reach the given state then assign that spot to the panda who has eaten the least up to that point
+
+
+                int leastFedCount = 9999;// 9999 represents pos_infinity
+                int leastFedPanda = 0;
+
+
+                for (Panda panda : spot) {
+                    int fedCount = panda.getAlreadyEatenStateCount();
+                    if (fedCount < leastFedCount) {
+                        leastFedCount = fedCount;
+                        leastFedPanda = panda.getPandaNum() - 1;
+                    }
+                }
+                pandaList.get(leastFedPanda).addAlreadyEatenCount();//least eaten panda gets to eat the current state
+            }
+        }
+
+         */
+
+        //find the max eaten and min eaten spot by a given panda
+
+
+        return maxFed - leastFed; //return the max difference
+    }
 
     public int solutionC() {
         //A > B
